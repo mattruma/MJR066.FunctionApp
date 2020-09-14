@@ -2,6 +2,9 @@
 
 namespace FunctionApp
 {
+    /// <summary>
+    /// Represent a game.
+    /// </summary>
     public class Game
     {
         public string Id { get; set; }
