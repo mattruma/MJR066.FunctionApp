@@ -20,4 +20,4 @@ steps:
   inputs:
     command: 'build'
     projects: '**/*.csproj'
-    arguments: '--configuration $(BuildConfiguration) --output publish_output'
+    arguments: '--configuration release --output publish_output'
