@@ -4,12 +4,11 @@ This API manages a user's collection of games.
 
 ## Getting Started
 
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
+Run the following script to build out the resources in Azure:
 
-1.Installation process
-2.Software dependencies
-3.Latest releases
-4.API references
+```bash
+.\Deploy.ps1 -ResourcePrefix RESOURCE_PREFIX
+```
 
 ## Build and Test
 
