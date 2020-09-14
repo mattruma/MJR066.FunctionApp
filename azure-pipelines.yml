@@ -16,18 +16,8 @@ steps:
     command: restore
     projects: '**/*.csproj'
 
-# - task: DotNetCoreCLI@2
-#   displayName: Build
-#   inputs:
-#     projects: '$(Parameters.RestoreBuildProjects)'
-#     arguments: '--configuration $(BuildConfiguration) --output publish_output'
-
-# - task: ArchiveFiles@2
-#   displayName: 'Archive files'
-#   inputs:
-#     rootFolderOrFile: 'publish_output/'
-#     includeRootFolder: false
-
-# - task: PublishBuildArtifacts@1
-#   displayName: 'Publish Artifact: drop'
-#   condition: succeededOrFailed()
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'build'
+    projects: '**/*.csproj'
+    arguments: '--configuration $(BuildConfiguration) --output publish_output'
