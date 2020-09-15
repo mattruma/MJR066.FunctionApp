@@ -19,41 +19,45 @@ stages:
 
       displayName: Build function app
 
-      # steps:
+      steps:
 
-      # - task: DotNetCoreCLI@2
-      #   displayName: Restore
-      #   inputs:
-      #     command: restore
-      #     projects: '**/*.csproj'
+      - task: DotNetCoreCLI@2
 
-      # - task: DotNetCoreCLI@2
-      #   displayName: Build
-      #   inputs:
-      #     command: 'build'
-      #     projects: '**/*.csproj'
-      #     arguments: '--configuration release --output publish_output'
+        displayName: Restore
+        inputs:
+          command: restore
+          projects: '**/*.csproj'
 
-      # - task: ArchiveFiles@2
-      #   displayName: Archive files
-      #   inputs:
-      #     rootFolderOrFile: 'publish_output/'
-      #     includeRootFolder: false
-      #     archiveType: 'zip'
-      #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-      #     replaceExistingArchive: true
-      #     verbose: true
+      - task: DotNetCoreCLI@2
 
-      # - task: PublishBuildArtifacts@1
-      #   displayName: Publish artifacts
-      #   inputs:
-      #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      #     ArtifactName: 'drop'
-      #     publishLocation: 'Container'
+        displayName: Build
+        inputs:
+          command: 'build'
+          projects: '**/*.csproj'
+          arguments: '--configuration release --output publish_output'
+
+      - task: ArchiveFiles@2
+
+        displayName: Archive files
+        inputs:
+          rootFolderOrFile: 'publish_output/'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+          replaceExistingArchive: true
+          verbose: true
+
+      - task: PublishBuildArtifacts@1
+
+        displayName: Publish artifacts
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
 
   - stage: Develop
-    dependsOn: Build
 
+    dependsOn: Build
     variables:
 
     - group: mjr-066-001-kv
@@ -80,6 +84,7 @@ stages:
       steps:
 
       - task: AzureFunctionApp@1
+      
         displayName: 'Deploy function app'
         inputs:
           azureSubscription: 'Microsoft Azure Internal Consumption - maruma (mjr-066-001-sp)'
