@@ -10,9 +10,11 @@ pool:
   vmImage: 'ubuntu-latest'
 
 jobs:
+
 - job: Build
 
   steps:
+
   - task: DotNetCoreCLI@2
     displayName: Restore
     inputs:
@@ -44,3 +46,10 @@ jobs:
       publishLocation: 'Container'
 
 - job: Release
+
+  variables:
+  - group: mjr-066-001-kv
+
+  steps:
+
+  - script: echo $(CosmosConnectionString1)
