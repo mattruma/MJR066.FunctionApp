@@ -13,39 +13,37 @@ jobs:
 
 - job: Build
 
-  condition: eq(1,2)
+  # steps:
 
-  steps:
+  # - task: DotNetCoreCLI@2
+  #   displayName: Restore
+  #   inputs:
+  #     command: restore
+  #     projects: '**/*.csproj'
 
-  - task: DotNetCoreCLI@2
-    displayName: Restore
-    inputs:
-      command: restore
-      projects: '**/*.csproj'
+  # - task: DotNetCoreCLI@2
+  #   displayName: Build
+  #   inputs:
+  #     command: 'build'
+  #     projects: '**/*.csproj'
+  #     arguments: '--configuration release --output publish_output'
 
-  - task: DotNetCoreCLI@2
-    displayName: Build
-    inputs:
-      command: 'build'
-      projects: '**/*.csproj'
-      arguments: '--configuration release --output publish_output'
+  # - task: ArchiveFiles@2
+  #   displayName: Archive files
+  #   inputs:
+  #     rootFolderOrFile: 'publish_output/'
+  #     includeRootFolder: false
+  #     archiveType: 'zip'
+  #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+  #     replaceExistingArchive: true
+  #     verbose: true
 
-  - task: ArchiveFiles@2
-    displayName: Archive files
-    inputs:
-      rootFolderOrFile: 'publish_output/'
-      includeRootFolder: false
-      archiveType: 'zip'
-      archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-      replaceExistingArchive: true
-      verbose: true
-
-  - task: PublishBuildArtifacts@1
-    displayName: Publish artifacts
-    inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'drop'
-      publishLocation: 'Container'
+  # - task: PublishBuildArtifacts@1
+  #   displayName: Publish artifacts
+  #   inputs:
+  #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+  #     ArtifactName: 'drop'
+  #     publishLocation: 'Container'
 
 - job: Release
 
@@ -54,6 +52,14 @@ jobs:
 
   steps:
 
-  - script: echo $(CosmosConnectionString1)
-  - script: echo $(FunctionApp1Code)
-  - script: echo $(StorageConnectionString1)
+  # - script: echo $(CosmosConnectionString1)
+  # - script: echo $(FunctionApp1Code)
+  # - script: echo $(StorageConnectionString1)
+
+  - task: AzurePowerShell@5
+    displayName: 'Deploy infrastructure'
+    inputs:
+      azureSubscription: 'Microsoft Azure Internal Consumption - maruma (mjr-066-001-sp)'
+      ScriptPath: '$(System.DefaultWorkingDirectory)/_FunctionApp/Deploy.ps1'
+      ScriptArguments: '-ResourcePrefix $(ResourcePrefix) -ResourceGroupLocation $(ResourceGroupLocation) -TemplateFile $(System.DefaultWorkingDirectory)/_FunctionApp/Deploy.json'
+      azurePowerShellVersion: LatestVersion
