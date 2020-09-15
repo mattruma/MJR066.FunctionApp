@@ -46,6 +46,7 @@ jobs:
   #     publishLocation: 'Container'
 
 - job: Release
+  dependsOn: Build
 
   variables:
   - group: mjr-066-001-kv
