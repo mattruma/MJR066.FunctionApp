@@ -74,6 +74,7 @@ stages:
 
       - task: DownloadBuildArtifacts@0
         inputs:
+          downloadPath: '$(Build.ArtifactStagingDirectory)'
           buildType: 'current'
           artifactName: 'drop'
 
