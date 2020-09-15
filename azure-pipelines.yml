@@ -51,7 +51,7 @@ stages:
       #     ArtifactName: 'drop'
       #     publishLocation: 'Container'
 
-  - stage: 001
+  - stage: Develop
     dependsOn: Build
 
     variables:
@@ -66,10 +66,23 @@ stages:
       steps:
 
       - task: AzurePowerShell@5
-      
+
         displayName: 'Deploy infrastructure'
         inputs:
           azureSubscription: 'Microsoft Azure Internal Consumption - maruma (mjr-066-001-sp)'
           ScriptPath: '$(System.DefaultWorkingDirectory)/Deploy.ps1'
           ScriptArguments: '-ResourcePrefix $(ResourcePrefix) -ResourceGroupLocation $(ResourceGroupLocation) -TemplateFile $(System.DefaultWorkingDirectory)/Deploy.json'
           azurePowerShellVersion: LatestVersion
+      
+    - job: DeployCode
+
+      displayName: Deploy code
+      steps:
+
+      - task: AzureFunctionApp@1
+        displayName: 'Deploy function app'
+        inputs:
+          azureSubscription: 'Microsoft Azure Internal Consumption - maruma (mjr-066-001-sp)'
+          appType: 'functionApp'
+          appName: 'mjr-066-001-func'
+          appSettings: '-CosmosConnectionString $(CosmosConnectionString1)'
