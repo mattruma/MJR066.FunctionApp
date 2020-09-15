@@ -61,6 +61,6 @@ jobs:
     displayName: 'Deploy infrastructure'
     inputs:
       azureSubscription: 'Microsoft Azure Internal Consumption - maruma (mjr-066-001-sp)'
-      ScriptPath: '$(System.DefaultWorkingDirectory)/_FunctionApp/Deploy.ps1'
-      ScriptArguments: '-ResourcePrefix $(ResourcePrefix) -ResourceGroupLocation $(ResourceGroupLocation) -TemplateFile $(System.DefaultWorkingDirectory)/_FunctionApp/Deploy.json'
+      ScriptPath: '$(System.DefaultWorkingDirectory)/Deploy.ps1'
+      ScriptArguments: '-ResourcePrefix $(ResourcePrefix) -ResourceGroupLocation $(ResourceGroupLocation) -TemplateFile $(System.DefaultWorkingDirectory)/Deploy.json'
       azurePowerShellVersion: LatestVersion
