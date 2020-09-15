@@ -75,7 +75,7 @@ stages:
       - task: DownloadBuildArtifacts@0
         inputs:
           buildType: 'current'
-          artifactName: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+          artifactName: '$(Build.ArtifactStagingDirectory)/drop'
 
       - task: AzureFunctionApp@1
         displayName: 'Deploy function app'
