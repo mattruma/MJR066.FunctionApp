@@ -13,6 +13,8 @@ jobs:
 
 - job: Build
 
+  condition: eq(1,2)
+
   steps:
 
   - task: DotNetCoreCLI@2
@@ -53,3 +55,5 @@ jobs:
   steps:
 
   - script: echo $(CosmosConnectionString1)
+  - script: echo $(FunctionApp1Code)
+  - script: echo $(StorageConnectionString1)
