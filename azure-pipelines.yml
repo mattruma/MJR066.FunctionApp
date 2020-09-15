@@ -12,9 +12,11 @@ pool:
 stages:
 
   - stage: Build
+
     jobs:
 
     - job: BuildFunctionApp
+
       displayName: Build function app
 
       # steps:
@@ -49,23 +51,22 @@ stages:
       #     ArtifactName: 'drop'
       #     publishLocation: 'Container'
 
-  - stage: Release
+  - stage: 001
     dependsOn: Build
+
+    variables:
+
+    - group: mjr-066-001-kv
+
     jobs: 
       
     - job: DeployInfrastructure
+
       displayName: Deploy infrastructure
-
-      variables:
-      - group: mjr-066-001-kv
-
       steps:
 
-      # - script: echo $(CosmosConnectionString1)
-      # - script: echo $(FunctionApp1Code)
-      # - script: echo $(StorageConnectionString1)
-
       - task: AzurePowerShell@5
+      
         displayName: 'Deploy infrastructure'
         inputs:
           azureSubscription: 'Microsoft Azure Internal Consumption - maruma (mjr-066-001-sp)'
