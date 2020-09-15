@@ -9,58 +9,66 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-jobs:
+stages:
 
-- job: Build
+  - stage: Build
+    jobs:
 
-  # steps:
+    - job: BuildFunctionApp
+      displayName: Build function app
 
-  # - task: DotNetCoreCLI@2
-  #   displayName: Restore
-  #   inputs:
-  #     command: restore
-  #     projects: '**/*.csproj'
+      # steps:
 
-  # - task: DotNetCoreCLI@2
-  #   displayName: Build
-  #   inputs:
-  #     command: 'build'
-  #     projects: '**/*.csproj'
-  #     arguments: '--configuration release --output publish_output'
+      # - task: DotNetCoreCLI@2
+      #   displayName: Restore
+      #   inputs:
+      #     command: restore
+      #     projects: '**/*.csproj'
 
-  # - task: ArchiveFiles@2
-  #   displayName: Archive files
-  #   inputs:
-  #     rootFolderOrFile: 'publish_output/'
-  #     includeRootFolder: false
-  #     archiveType: 'zip'
-  #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-  #     replaceExistingArchive: true
-  #     verbose: true
+      # - task: DotNetCoreCLI@2
+      #   displayName: Build
+      #   inputs:
+      #     command: 'build'
+      #     projects: '**/*.csproj'
+      #     arguments: '--configuration release --output publish_output'
 
-  # - task: PublishBuildArtifacts@1
-  #   displayName: Publish artifacts
-  #   inputs:
-  #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-  #     ArtifactName: 'drop'
-  #     publishLocation: 'Container'
+      # - task: ArchiveFiles@2
+      #   displayName: Archive files
+      #   inputs:
+      #     rootFolderOrFile: 'publish_output/'
+      #     includeRootFolder: false
+      #     archiveType: 'zip'
+      #     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+      #     replaceExistingArchive: true
+      #     verbose: true
 
-- job: Release
-  dependsOn: Build
+      # - task: PublishBuildArtifacts@1
+      #   displayName: Publish artifacts
+      #   inputs:
+      #     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      #     ArtifactName: 'drop'
+      #     publishLocation: 'Container'
 
-  variables:
-  - group: mjr-066-001-kv
+  - stage: Release
+    dependsOn: Build
+    jobs: 
+      
+    - job: DeployInfrastructure
+      displayName: Deploy infrastructure
 
-  steps:
+      variables:
+      - group: mjr-066-001-kv
 
-  # - script: echo $(CosmosConnectionString1)
-  # - script: echo $(FunctionApp1Code)
-  # - script: echo $(StorageConnectionString1)
+      steps:
 
-  - task: AzurePowerShell@5
-    displayName: 'Deploy infrastructure'
-    inputs:
-      azureSubscription: 'Microsoft Azure Internal Consumption - maruma (mjr-066-001-sp)'
-      ScriptPath: '$(System.DefaultWorkingDirectory)/Deploy.ps1'
-      ScriptArguments: '-ResourcePrefix $(ResourcePrefix) -ResourceGroupLocation $(ResourceGroupLocation) -TemplateFile $(System.DefaultWorkingDirectory)/Deploy.json'
-      azurePowerShellVersion: LatestVersion
+      # - script: echo $(CosmosConnectionString1)
+      # - script: echo $(FunctionApp1Code)
+      # - script: echo $(StorageConnectionString1)
+
+      - task: AzurePowerShell@5
+        displayName: 'Deploy infrastructure'
+        inputs:
+          azureSubscription: 'Microsoft Azure Internal Consumption - maruma (mjr-066-001-sp)'
+          ScriptPath: '$(System.DefaultWorkingDirectory)/Deploy.ps1'
+          ScriptArguments: '-ResourcePrefix $(ResourcePrefix) -ResourceGroupLocation $(ResourceGroupLocation) -TemplateFile $(System.DefaultWorkingDirectory)/Deploy.json'
+          azurePowerShellVersion: LatestVersion
