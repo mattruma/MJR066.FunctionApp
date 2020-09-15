@@ -72,10 +72,9 @@ stages:
 
       steps:
 
-      - task: DownloadPipelineArtifact@2
+      - task: DownloadBuildArtifacts@0
         inputs:
           buildType: 'current'
-          targetPath: '$(Pipeline.Workspace)'
 
       - task: AzureFunctionApp@1
         displayName: 'Deploy function app'
