@@ -92,6 +92,9 @@ stages:
       # dependsOn: DeployCode
 
       steps:
+        - script: echo $(FunctionUrl)
+        - script: echo $(FunctionApp1Code)
+
         - task: PowerShell@2
           displayName: 'Create parameters file'
           inputs:
