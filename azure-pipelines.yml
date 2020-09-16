@@ -97,7 +97,7 @@ stages:
       dependsOn: DeployCode
       variables:
       - name: FunctionUrl
-        value: '$(ResourcePrefix)-func.azurewebsites.net'
+        value: '$(ResourcePrefix)-001-func.azurewebsites.net'
 
       steps:
 
