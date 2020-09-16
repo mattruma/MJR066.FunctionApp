@@ -90,7 +90,9 @@ stages:
     - job: RunIntegrationTests
       displayName: Run integration tests
       # dependsOn: DeployCode
-
+      variables:
+      - name: FunctionUrl
+        value: 'mjr-066-001-func.azurewebsites.net'
       steps:
         - script: echo $(FunctionUrl)
         - script: echo $(FunctionApp1Code)
@@ -100,4 +102,4 @@ stages:
           inputs:
             targetType: 'filePath'
             filePath: '$(System.DefaultWorkingDirectory)/RunIntegrationTests_CreateParametersFile.ps1'            
-            arguments: "-FunctionUrl $(FunctionUrl) -FunctionApp1Code $(FunctionApp1Code)"
+            arguments: '-FunctionUrl $(ResourecPrefix)-func.azurewebsites.net -FunctionApp1Code $(FunctionApp1Code)'
