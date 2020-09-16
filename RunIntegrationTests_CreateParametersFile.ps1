@@ -25,8 +25,8 @@ $Content = @'
    }
 '@
   
-$Content.Replace("FUNCTION_URL", $FunctionUrl)
-$Content.Replace("FUNCTION_APP_1_CODE", $FunctionApp1Code)
+$Content = $Content.Replace("FUNCTION_URL", $FunctionUrl)
+$Content = $Content.Replace("FUNCTION_APP_1_CODE", $FunctionApp1Code)
 
 Write-Host '$Content :' $Content
 
