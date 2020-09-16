@@ -102,4 +102,4 @@ stages:
           inputs:
             targetType: 'filePath'
             filePath: '$(System.DefaultWorkingDirectory)/RunIntegrationTests_CreateParametersFile.ps1'            
-            arguments: '-FunctionUrl $(ResourecPrefix)-func.azurewebsites.net -FunctionApp1Code $(FunctionApp1Code)'
+            arguments: '-FunctionUrl $(ResourcePrefix)-func.azurewebsites.net -FunctionApp1Code $(FunctionApp1Code)'
