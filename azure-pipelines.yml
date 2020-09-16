@@ -125,7 +125,7 @@ stages:
             failTaskOnFailedTests: true
 
   - stage: Staging
-    dependsOn: Devlop
+    dependsOn: Develop
 
     variables:
     - group: Staging
