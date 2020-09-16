@@ -92,7 +92,7 @@ stages:
       # dependsOn: DeployCode
       variables:
       - name: FunctionUrl
-        value: 'mjr-066-001-func.azurewebsites.net'
+        value: '$(ResourcePrefix)-func.azurewebsites.net'
       steps:
         - script: echo $(FunctionUrl)
         - script: echo $(FunctionApp1Code)
