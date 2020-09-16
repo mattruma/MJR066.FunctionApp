@@ -93,7 +93,9 @@ stages:
       variables:
       - name: FunctionUrl
         value: '$(ResourcePrefix)-func.azurewebsites.net'
+
       steps:
+
         - script: echo $(FunctionUrl)
         - script: echo $(FunctionApp1Code)
 
@@ -103,3 +105,18 @@ stages:
             targetType: 'filePath'
             filePath: '$(System.DefaultWorkingDirectory)/RunIntegrationTests_CreateParametersFile.ps1'            
             arguments: '-FunctionUrl $(FunctionUrl) -FunctionApp1Code $(FunctionApp1Code)'
+        
+        - script: 'npm install -g newman'
+          displayName: 'Install newman'
+          workingDirectory: '$(System.DefaultWorkingDirectory)'
+        
+        - script: 'newman run postman_collection.json -e postman_environment.json --reporters cli,junit --reporter-junit-export JunitReport.xml '
+          displayName: 'Run postman tests'
+          workingDirectory: '$(System.DefaultWorkingDirectory)'
+
+        - task: PublishTestResults@2
+          displayName: 'Publish test results'
+          inputs:
+            testResultsFiles: 'JunitReport.xml '
+            searchFolder: '$(System.DefaultWorkingDirectory)'
+            failTaskOnFailedTests: true
