@@ -95,6 +95,6 @@ stages:
         - task: PowerShell@2
           displayName: 'Create parameters file'
           inputs:
-            targetType: 'inline'
-            script: 'Write-Host "This is me running PowerShell code!"'
-            workingDirectory: '$(System.DefaultWorkingDirectory)'
+            targetType: 'filePath'
+            filePath: '$(System.DefaultWorkingDirectory)/RunIntegrationTests_CreateParametersFile.ps1'            
+            arguments: "-FunctionUrl $(FunctionUrl) -FunctionApp1Code $(FunctionApp1Code)"
