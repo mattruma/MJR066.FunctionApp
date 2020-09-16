@@ -105,12 +105,7 @@ stages:
             targetType: 'filePath'
             filePath: '$(System.DefaultWorkingDirectory)/RunIntegrationTests_CreateParametersFile.ps1'            
             arguments: '-FunctionUrl $(FunctionUrl) -FunctionApp1Code $(FunctionApp1Code)'
-
-        # - task: Npm@1
-        #   displayName: 'Install newman'
-        #   inputs:
-        #     command: 'custom'
-        #     customCommand: 'npm install -g newman'
+            workingDirectory: '$(System.DefaultWorkingDirectory)'
 
         - script: 'npm install newman'
           displayName: 'Install newman'
