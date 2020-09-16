@@ -116,13 +116,13 @@ stages:
           displayName: 'Install newman'
           workingDirectory: '$(System.DefaultWorkingDirectory)'
         
-        # - script: 'newman run postman_collection.json -e postman_environment.json --reporters cli,junit --reporter-junit-export JunitReport.xml '
-        #   displayName: 'Run postman tests'
-        #   workingDirectory: '$(System.DefaultWorkingDirectory)'
+        - script: 'newman run postman_collection.json -e postman_environment.json --reporters cli,junit --reporter-junit-export JunitReport.xml '
+          displayName: 'Run postman tests'
+          workingDirectory: '$(System.DefaultWorkingDirectory)'
 
-        # - task: PublishTestResults@2
-        #   displayName: 'Publish test results'
-        #   inputs:
-        #     testResultsFiles: 'JunitReport.xml '
-        #     searchFolder: '$(System.DefaultWorkingDirectory)'
-        #     failTaskOnFailedTests: true
+        - task: PublishTestResults@2
+          displayName: 'Publish test results'
+          inputs:
+            testResultsFiles: 'JunitReport.xml '
+            searchFolder: '$(System.DefaultWorkingDirectory)'
+            failTaskOnFailedTests: true
