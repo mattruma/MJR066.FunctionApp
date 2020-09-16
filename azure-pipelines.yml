@@ -85,3 +85,4 @@ stages:
           appType: 'functionApp'
           appName: 'mjr-066-001-func'
           appSettings: '-CosmosConnectionString $(CosmosConnectionString1)'
+          package: $(System.ArtifactsDirectory)/**/*.zip
