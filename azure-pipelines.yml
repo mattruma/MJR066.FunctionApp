@@ -132,7 +132,7 @@ stages:
 
     - deployment: DeployInfrastructure
       displayName: Deploy infrastructure
-      environment: 'Develop'
+      environment: 'Staging'
 
       strategy:
         runOnce:
@@ -151,7 +151,7 @@ stages:
     - deployment: DeployCode
       displayName: Deploy code
       dependsOn: DeployInfrastructure
-      environment: 'Develop'
+      environment: 'Staging'
 
       strategy:
         runOnce:
@@ -180,7 +180,7 @@ stages:
       variables:
       - name: FunctionUrl
         value: '$(ResourcePrefix)-func.azurewebsites.net'
-      environment: 'Develop'
+      environment: 'Staging'
 
       strategy:
         runOnce:
