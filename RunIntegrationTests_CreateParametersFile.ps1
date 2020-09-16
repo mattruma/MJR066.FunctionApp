@@ -28,6 +28,8 @@ $Content = @'
 $Content.Replace("FUNCTION_URL", $FunctionUrl)
 $Content.Replace("FUNCTION_APP_1_CODE", $FunctionApp1Code)
 
+Write-Host $Content
+
 New-Item postman_environment.json
 
 Set-Content postman_environment.json $Content
