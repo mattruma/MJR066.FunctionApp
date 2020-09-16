@@ -49,7 +49,7 @@ stages:
     dependsOn: Build
 
     variables:
-    - group: $(ResourcePrefix)-001-kv
+    - group: '$(ResourcePrefix)-001-kv'
 
     jobs:      
 
@@ -126,7 +126,7 @@ stages:
     dependsOn: Develop
 
     variables:
-    - group: $(ResourcePrefix)-002-kv
+    - group: '$(ResourcePrefix)-002-kv'
 
     jobs:      
 
