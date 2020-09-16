@@ -6,90 +6,90 @@ pool:
 
 stages:
 
-  # - stage: Build
+  - stage: Build
 
-  #   jobs:
+    jobs:
 
-  #   - job: BuildFunctionApp
-  #     displayName: Build function app
+    - job: BuildFunctionApp
+      displayName: Build function app
 
-  #     steps:
+      steps:
 
-  #     - task: DotNetCoreCLI@2
-  #       displayName: Restore
-  #       inputs:
-  #         command: restore
-  #         projects: '**/*.csproj'
+      - task: DotNetCoreCLI@2
+        displayName: Restore
+        inputs:
+          command: restore
+          projects: '**/*.csproj'
 
-  #     - task: DotNetCoreCLI@2
-  #       displayName: Build
-  #       inputs:
-  #         command: 'build'
-  #         projects: '**/*.csproj'
-  #         arguments: '--configuration release --output publish_output'
+      - task: DotNetCoreCLI@2
+        displayName: Build
+        inputs:
+          command: 'build'
+          projects: '**/*.csproj'
+          arguments: '--configuration release --output publish_output'
 
-  #     - task: ArchiveFiles@2
-  #       displayName: Archive files
-  #       inputs:
-  #         rootFolderOrFile: 'publish_output/'
-  #         includeRootFolder: false
-  #         archiveType: 'zip'
-  #         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-  #         replaceExistingArchive: true
-  #         verbose: true
+      - task: ArchiveFiles@2
+        displayName: Archive files
+        inputs:
+          rootFolderOrFile: 'publish_output/'
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+          replaceExistingArchive: true
+          verbose: true
 
-  #     - task: PublishBuildArtifacts@1
-  #       displayName: Publish artifacts
-  #       inputs:
-  #         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-  #         ArtifactName: 'drop'
-  #         publishLocation: 'Container'
+      - task: PublishBuildArtifacts@1
+        displayName: Publish artifacts
+        inputs:
+          PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
 
   - stage: Develop
-    # dependsOn: Build
+    dependsOn: Build
 
     variables:
     - group: mjr-066-001-kv
 
     jobs:      
 
-    # - job: DeployInfrastructure
-    #   displayName: Deploy infrastructure
+    - job: DeployInfrastructure
+      displayName: Deploy infrastructure
 
-    #   steps:
+      steps:
 
-    #   - task: AzurePowerShell@5
-    #     displayName: 'Deploy infrastructure'
-    #     inputs:
-    #       azureSubscription: 'Microsoft Azure Internal Consumption - maruma (mjr-066-001-sp)'
-    #       ScriptPath: '$(System.DefaultWorkingDirectory)/Deploy.ps1'
-    #       ScriptArguments: '-ResourcePrefix $(ResourcePrefix) -ResourceGroupLocation $(ResourceGroupLocation) -TemplateFile $(System.DefaultWorkingDirectory)/Deploy.json'
-    #       azurePowerShellVersion: LatestVersion   
+      - task: AzurePowerShell@5
+        displayName: 'Deploy infrastructure'
+        inputs:
+          azureSubscription: 'Microsoft Azure Internal Consumption - maruma (mjr-066-001-sp)'
+          ScriptPath: '$(System.DefaultWorkingDirectory)/Deploy.ps1'
+          ScriptArguments: '-ResourcePrefix $(ResourcePrefix) -ResourceGroupLocation $(ResourceGroupLocation) -TemplateFile $(System.DefaultWorkingDirectory)/Deploy.json'
+          azurePowerShellVersion: LatestVersion   
 
-    # - job: DeployCode
-    #   displayName: Deploy code
-    #   dependsOn: DeployInfrastructure
+    - job: DeployCode
+      displayName: Deploy code
+      dependsOn: DeployInfrastructure
 
-    #   steps:
+      steps:
 
-    #   - task: DownloadBuildArtifacts@0
-    #     inputs:
-    #       downloadPath: '$(Build.ArtifactStagingDirectory)'
-    #       buildType: 'current'
-    #       artifactName: 'drop'
+      - task: DownloadBuildArtifacts@0
+        inputs:
+          downloadPath: '$(Build.ArtifactStagingDirectory)'
+          buildType: 'current'
+          artifactName: 'drop'
 
-    #   - task: AzureFunctionApp@1
-    #     displayName: 'Deploy function app'
-    #     inputs:
-    #       azureSubscription: 'Microsoft Azure Internal Consumption - maruma (mjr-066-001-sp)'
-    #       appType: 'functionApp'
-    #       appName: 'mjr-066-001-func'
-    #       appSettings: '-CosmosConnectionString $(CosmosConnectionString1)'
-    #       package: $(System.ArtifactsDirectory)/**/*.zip     
+      - task: AzureFunctionApp@1
+        displayName: 'Deploy function app'
+        inputs:
+          azureSubscription: 'Microsoft Azure Internal Consumption - maruma (mjr-066-001-sp)'
+          appType: 'functionApp'
+          appName: 'mjr-066-001-func'
+          appSettings: '-CosmosConnectionString $(CosmosConnectionString1)'
+          package: $(System.ArtifactsDirectory)/**/*.zip     
 
     - job: RunIntegrationTests
       displayName: Run integration tests
-      # dependsOn: DeployCode
+      dependsOn: DeployCode
       variables:
       - name: FunctionUrl
         value: '$(ResourcePrefix)-func.azurewebsites.net'
