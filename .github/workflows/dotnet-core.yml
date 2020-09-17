@@ -35,8 +35,7 @@ jobs:
         secrets: 'CosmosConnectionString1,FunctionApp1Code,StorageConnectionString1' 
       id: GetSecrets
 
-    - name: Run Azure PowerShell script
-      uses: azure/powershell@v1
+    - uses: azure/powershell@v1
       with:
         inlineScript: |
           $ResourceGroupLocation = "eastus"
@@ -50,3 +49,10 @@ jobs:
                   -Location $ResourceGroupLocation)
           }
         azPSVersion: '3.1.0'
+        
+    - uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.DEVELOP_SUBSCRIPTIONID }}
+        resourceGroupName: mjr-066-001-rg
+        template: ./Deploy.json
+        parameters: resourcePrefix=mjr-066-001
