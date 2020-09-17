@@ -82,6 +82,6 @@ jobs:
         keyvault: "mjr-066-001-kv"
         secrets: 'FunctionApp1Code' 
       id: GetSecrets
-    - name: Create parameters file
-      run: pwsh -command "./RunIntegrationTests_CreateParametersFile.ps1 -FunctionUrl 'mjr-066-001-func.azurewebsites.net' -FunctionApp1Code ${{ steps.GetSecrets.outputs.FunctionApp1Code }}"
-    
+    - run: pwsh -command "./RunIntegrationTests_CreateParametersFile.ps1 -FunctionUrl 'mjr-066-001-func.azurewebsites.net' -FunctionApp1Code ${{ steps.GetSecrets.outputs.FunctionApp1Code }}"
+    - run: npm install newman
+    - run: newman run postman_collection.json -e postman_environment.json --reporters cli,junit --reporter-junit-export JunitReport.xml
