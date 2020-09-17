@@ -62,4 +62,4 @@ jobs:
     - uses: Azure/functions-action@v1
       with:
         app-name: mjr-066-001-func
-        package: './output'
+        package: 'output'
