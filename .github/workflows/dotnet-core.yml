@@ -12,17 +12,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.301
-    - name: Install dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --configuration Release --no-restore
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+    # - uses: actions/checkout@v2
+    # - name: Setup .NET Core
+    #   uses: actions/setup-dotnet@v1
+    #   with:
+    #     dotnet-version: 3.1.301
+    # - name: Install dependencies
+    #   run: dotnet restore
+    # - name: Build
+    #   run: dotnet build --configuration Release --no-restore
+    # - name: Test
+    #   run: dotnet test --no-restore --verbosity normal
 
     - uses: actions/checkout@master
     - uses: Azure/login@v1
@@ -38,5 +38,12 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
-          Deploy.ps1 -ResourcePrefix mjr-006-001 -ResourceGroupLocation eastus
+          $ResourceGroupName = "mjr-066-001-rg"
+          $ResourceGroup = (Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue)
+
+          if ($null -eq $ResourceGroup) {
+              $ResourceGroup = (New-AzResourceGroup `
+                  -Name $ResourceGroupName `
+                  -Location $ResourceGroupLocation)
+          }
         azPSVersion: '3.1.0'
