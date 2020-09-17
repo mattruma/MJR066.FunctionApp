@@ -34,7 +34,17 @@ jobs:
         keyvault: "mjr-066-001-kv"
         secrets: 'CosmosConnectionString1,FunctionApp1Code,StorageConnectionString1' 
       id: GetSecrets
+  
+  deploy:
+    
+    runs-on: ubuntu-latest
 
+    steps: 
+    - uses: actions/checkout@master
+    - uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.DEVELOP_AZURECREDENTIALS }} 
+        enable-AzPSSession: true 
     - uses: azure/powershell@v1
       with:
         inlineScript: |
