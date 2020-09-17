@@ -13,7 +13,7 @@ jobs:
     steps: 
       - uses: actions/checkout@v2
       - name: Check issue was release issue
-        uses: ./.github/actions/check-issue
+        uses: .github/actions/check-issue
         id: CheckIssue
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
