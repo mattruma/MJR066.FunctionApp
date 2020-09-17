@@ -1,0 +1,17 @@
+name: .NET Core
+
+on:
+  workflow_dispatch:
+
+jobs:
+        
+  deploy-infrastructure:
+    
+    runs-on: ubuntu-latest
+
+    steps: 
+      - name: Hello world action step
+        id: hello
+        uses: actions/hello-world-javascript-action@v1.1
+        with:
+          who-to-greet: 'Mona the Octocat'
