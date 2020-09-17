@@ -87,7 +87,7 @@ jobs:
         inlineScript: |
           $ResourceGroupName = "mjr-066-001-rg"
           
-          Update-AzFunctionAppSetting -Name mjr-066-001-func -ResourceGroupName $ResourceGroupName -AppSetting @{"CosmosConnectionString" = ${{ steps.GetSecrets.outputs.CosmosConnectionString1 }}}
+          Update-AzFunctionAppSetting -Name mjr-066-001-func -ResourceGroupName $ResourceGroupName -AppSetting @{"CosmosConnectionString" = "${{ steps.GetSecrets.outputs.CosmosConnectionString1 }}"}
         azPSVersion: '3.1.0'              
     - run: pwsh -command "./RunIntegrationTests_CreateParametersFile.ps1 -FunctionUrl 'mjr-066-001-func.azurewebsites.net' -FunctionApp1Code ${{ steps.GetSecrets.outputs.FunctionApp1Code }}"
     - run: npm install newman
