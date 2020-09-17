@@ -15,10 +15,8 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: "12.x"
-      - run: npm i && npm run build
-        working-directory: .github/actions/check-issue
-      # - uses: .github/actions/check-issue
-      #   id: CheckIssue
-      #   with:
-      #       token: ${{ secrets.GITHUB_TOKEN }}
-      #       label: approved
+      - uses: .github/actions/check-issue
+        id: CheckIssue
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          label: approved
