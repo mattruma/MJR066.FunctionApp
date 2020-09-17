@@ -83,5 +83,5 @@ jobs:
         secrets: 'FunctionApp1Code' 
       id: GetSecrets
     - name: Create parameters file
-      run: pwsh -command "./RunIntegrationTests_CreateParametersFile.ps1 -FunctionUrl '' -FunctionApp1Code ''"
+      run: pwsh -command "./RunIntegrationTests_CreateParametersFile.ps1 -FunctionUrl 'mjr-066-001-func.azurewebsites.net' -FunctionApp1Code ${{ steps.GetSecrets.outputs.FunctionApp1Code }}"
     
