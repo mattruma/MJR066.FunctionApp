@@ -1,7 +1,8 @@
 name: Staging
 
 on:
-  workflow_dispatch:
+  label:
+    types: [edited]
 
 jobs:
         
@@ -10,8 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps: 
-      - name: Hello world action step
-        id: hello
-        uses: actions/hello-world-javascript-action@v1.1
+      - name: Check issue was release issue
+        uses: ./.github/actions/check-issue
+        id: check-issue
         with:
-          who-to-greet: 'Mona the Octocat'
+            token: ${{ secrets.GITHUB_TOKEN }}
+            label: approve
+
+# https://dev.to/azure/approval-workflows-with-github-actions-3bob
+# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#issues
