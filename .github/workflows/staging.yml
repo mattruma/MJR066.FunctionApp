@@ -17,6 +17,3 @@ jobs:
         with:
             token: ${{ secrets.GITHUB_TOKEN }}
             label: approved
-
-# https://dev.to/azure/approval-workflows-with-github-actions-3bob
-# https://docs.github.com/en/actions/reference/events-that-trigger-workflows#issues
