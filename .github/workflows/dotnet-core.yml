@@ -82,5 +82,5 @@ jobs:
         secrets: 'FunctionApp1Code' 
       id: GetSecrets
     - name: Create parameters file
-      run: pwsh -command ".\$GITHUB_WORKSPACE\RunIntegrationTests_CreateParametersFile.ps1 -FunctionUrl '' -FunctionApp1Code ''"
+      run: pwsh -command "RunIntegrationTests_CreateParametersFile.ps1 -FunctionUrl '' -FunctionApp1Code ''"
     
