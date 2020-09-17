@@ -12,28 +12,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # - uses: actions/checkout@v2
-    # - name: Setup .NET Core
-    #   uses: actions/setup-dotnet@v1
-    #   with:
-    #     dotnet-version: 3.1.301
-    # - name: Install dependencies
-    #   run: dotnet restore
-    # - name: Build
-    #   run: dotnet build --configuration Release --no-restore
-    # - name: Test
-    #   run: dotnet test --no-restore --verbosity normal
-
-    - uses: actions/checkout@master
-    - uses: Azure/login@v1
-      with:
-        creds: ${{ secrets.DEVELOP_AZURECREDENTIALS }} 
-        enable-AzPSSession: true 
-    - uses: Azure/get-keyvault-secrets@v1.0
-      with:
-        keyvault: "mjr-066-001-kv"
-        secrets: 'CosmosConnectionString1,FunctionApp1Code,StorageConnectionString1' 
-      id: GetSecrets
+     - uses: actions/checkout@v2
+     - name: Setup .NET Core
+       uses: actions/setup-dotnet@v1
+       with:
+         dotnet-version: 3.1.301
+     - name: Install dependencies
+       run: dotnet restore
+     - name: Build
+       run: dotnet build --configuration Release --no-restore
   
   deploy:
     
@@ -46,6 +33,11 @@ jobs:
       with:
         creds: ${{ secrets.DEVELOP_AZURECREDENTIALS }} 
         enable-AzPSSession: true 
+    - uses: Azure/get-keyvault-secrets@v1.0
+      with:
+        keyvault: "mjr-066-001-kv"
+        secrets: 'CosmosConnectionString1,FunctionApp1Code,StorageConnectionString1' 
+      id: GetSecrets
     - uses: azure/powershell@v1
       with:
         inlineScript: |
@@ -67,3 +59,7 @@ jobs:
         resourceGroupName: mjr-066-001-rg
         template: ./Deploy.json
         parameters: resourcePrefix=mjr-066-001
+    - uses: Azure/functions-action@v1
+      with:
+        app-name: mjr-066-001-func
+        package: './output'
