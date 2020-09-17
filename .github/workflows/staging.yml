@@ -2,7 +2,7 @@ name: Staging
 
 on:
   label:
-    types: [edited]
+    types: [created]
 
 jobs:
         
