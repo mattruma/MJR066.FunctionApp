@@ -7,15 +7,79 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
 
+        
+  deploy-infrastructure:
+    
+    runs-on: ubuntu-latest
+
+    steps: 
+    - uses: actions/checkout@master
+    - uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.DEVELOP_AZURECREDENTIALS }} 
+        enable-AzPSSession: true 
+    - uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          $ResourceGroupLocation = "eastus"
+          
+          $ResourceGroupName = "mjr-066-001-rg"
+          $ResourceGroup = (Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue)
+          
+          if ($null -eq $ResourceGroup) {
+              $ResourceGroup = (New-AzResourceGroup `
+                  -Name $ResourceGroupName `
+                  -Location $ResourceGroupLocation)
+          }
+        azPSVersion: '3.1.0'        
+    - uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.DEVELOP_SUBSCRIPTIONID }}
+        resourceGroupName: mjr-066-001-rg
+        template: ./Deploy.json
+        parameters: resourcePrefix=mjr-066-001
+        
+  deploy-code:
+
+    needs: deploy-infrastructure
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+     - uses: actions/checkout@v2
+     - name: Setup .NET Core
+       uses: actions/setup-dotnet@v1
+       with:
+         dotnet-version: 3.1.301       
+     - name: 'Run dotnet'
+       shell: pwsh
+       run: |
+         pushd './.'
+         dotnet build --configuration Release --output ./output
+         popd
+     - uses: Azure/login@v1
+       with:
+         creds: ${{ secrets.DEVELOP_AZURECREDENTIALS }} 
+         enable-AzPSSession: true 
+     - name: 'Deploy code'
+       uses: Azure/functions-action@v1
+       with:
+         app-name: mjr-066-001-func
+         package: './output'
+  
+  run-integration-tests:
+  
+    needs: deploy-code
+    runs-on: ubuntu-latest
+
+    steps:  
+    - uses: Azure/login@v1
       with:
+        creds: ${{ secrets.DEVELOP_AZURECREDENTIALS }} 
+        enable-AzPSSession: true 
+    - uses: Azure/get-keyvault-secrets@v1.0
+      with:
+<<<<<<< HEAD
         dotnet-version: 3.1.301
     - name: Install dependencies
       run: dotnet restore
@@ -40,3 +104,9 @@ jobs:
         inlineScript: |
           .\Deploy.ps1 -ResourcePrefix mjr-006-001 -ResourceGroupLocation eastus
         azPSVersion: '3.1.0'
+=======
+        keyvault: "mjr-066-001-kv"
+        secrets: 'CosmosConnectionString1,FunctionApp1Code,StorageConnectionString1' 
+      id: GetSecrets
+    
+>>>>>>> 6d7d4527c8192f6e3333c036bff829c356a49e68
