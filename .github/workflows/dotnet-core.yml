@@ -7,8 +7,42 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
 
+        
+  deploy-infrastructure:
+    
+    runs-on: ubuntu-latest
+
+    steps: 
+    - uses: actions/checkout@master
+    - uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.DEVELOP_AZURECREDENTIALS }} 
+        enable-AzPSSession: true 
+    - uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          $ResourceGroupLocation = "eastus"
+          
+          $ResourceGroupName = "mjr-066-001-rg"
+          $ResourceGroup = (Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue)
+          
+          if ($null -eq $ResourceGroup) {
+              $ResourceGroup = (New-AzResourceGroup `
+                  -Name $ResourceGroupName `
+                  -Location $ResourceGroupLocation)
+          }
+        azPSVersion: '3.1.0'        
+    - uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.DEVELOP_SUBSCRIPTIONID }}
+        resourceGroupName: mjr-066-001-rg
+        template: ./Deploy.json
+        parameters: resourcePrefix=mjr-066-001
+        
+  deploy-code:
+
+    needs: deploy-infrastructure
     runs-on: ubuntu-latest
 
     steps:
@@ -32,14 +66,13 @@ jobs:
        with:
          app-name: mjr-066-001-func
          package: './output'
-        
-  deploy:
-    
-    needs: build
+  
+  run-integration-tests:
+  
+    needs: deploy-code
     runs-on: ubuntu-latest
 
-    steps: 
-    - uses: actions/checkout@master
+    steps:  
     - uses: Azure/login@v1
       with:
         creds: ${{ secrets.DEVELOP_AZURECREDENTIALS }} 
@@ -49,24 +82,4 @@ jobs:
         keyvault: "mjr-066-001-kv"
         secrets: 'CosmosConnectionString1,FunctionApp1Code,StorageConnectionString1' 
       id: GetSecrets
-    - uses: azure/powershell@v1
-      with:
-        inlineScript: |
-          $ResourceGroupLocation = "eastus"
-          
-          $ResourceGroupName = "mjr-066-001-rg"
-          $ResourceGroup = (Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue)
-          
-          if ($null -eq $ResourceGroup) {
-              $ResourceGroup = (New-AzResourceGroup `
-                  -Name $ResourceGroupName `
-                  -Location $ResourceGroupLocation)
-          }
-        azPSVersion: '3.1.0'
-        
-    - uses: azure/arm-deploy@v1
-      with:
-        subscriptionId: ${{ secrets.DEVELOP_SUBSCRIPTIONID }}
-        resourceGroupName: mjr-066-001-rg
-        template: ./Deploy.json
-        parameters: resourcePrefix=mjr-066-001
+    
