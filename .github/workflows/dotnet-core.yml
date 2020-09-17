@@ -16,11 +16,13 @@ jobs:
      - name: Setup .NET Core
        uses: actions/setup-dotnet@v1
        with:
-         dotnet-version: 3.1.301
-     - name: Install dependencies
-       run: dotnet restore
-     - name: Build
-       run: dotnet build --configuration Release --output output
+         dotnet-version: 3.1.301       
+     - name: 'Run dotnet'
+       shell: pwsh
+       run: |
+         pushd './.'
+         dotnet build --configuration Release --output ./output
+         popd
   
   deploy:
     
@@ -62,4 +64,4 @@ jobs:
     - uses: Azure/functions-action@v1
       with:
         app-name: mjr-066-001-func
-        package: 'output'
+        package: './output'
