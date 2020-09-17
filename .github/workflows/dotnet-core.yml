@@ -38,9 +38,11 @@ jobs:
       uses: azure/powershell@v1
       with:
         inlineScript: |
+          $ResourceGroupLocation = "eastus"
+          
           $ResourceGroupName = "mjr-066-001-rg"
           $ResourceGroup = (Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue)
-
+          
           if ($null -eq $ResourceGroup) {
               $ResourceGroup = (New-AzResourceGroup `
                   -Name $ResourceGroupName `
