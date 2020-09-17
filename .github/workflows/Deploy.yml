@@ -16,3 +16,7 @@ jobs:
       with:
         creds: ${{ secrets.DEVELOP_AZURECREDENTIALS }} 
     - uses: Azure/get-keyvault-secrets@v1.0
+      with:
+        keyvault: "mjr-066-001-kv"
+        secrets: 'CosmosConnectionString1,FunctionApp1Code,StorageConnectionString1' 
+      id: GetSecrets
