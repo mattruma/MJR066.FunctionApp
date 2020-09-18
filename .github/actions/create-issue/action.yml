@@ -4,8 +4,14 @@ inputs:
   title:
     description: 'The title of the issue.'
     required: true
-  label:
+  labels:
     description: 'Labels to associate with this issue.'
+    required: false
+  assignee:
+    description: 'Login for the user that this issue should be assigned to.'
+    required: false
+  body:
+    description: 'The contents of the issue.'
     required: false
 runs:
   using: 'node12'
