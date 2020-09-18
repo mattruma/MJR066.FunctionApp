@@ -3,20 +3,6 @@ const github = require('@actions/github');
 
 console.log(github.context.payload.issue.labels);
 
-// const token = core.getInput("token");
-
-// const octokit = new github.GitHub(token);
-// const context = github.context;
-
-// if (!context.payload.issue) {
-//     throw new Error("This should not happen");
-// }
-
-// const issue = await octokit.issues.get({
-//     ...context.repo,
-//     issue_number: context.payload.issue.number,
-// });
-
 core.setOutput(
     "exists",
     github.context.payload.issue.labels

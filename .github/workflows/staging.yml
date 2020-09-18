@@ -35,3 +35,4 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           label: approved
+      - run: echo ${{ steps.check-issue.outputs.exists }}
