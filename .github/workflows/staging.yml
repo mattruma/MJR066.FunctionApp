@@ -12,6 +12,8 @@ jobs:
     steps:
       # To use this repository's private action,
       # you must check out the repository
+      - run: npm install @actions/core
+      - run: npm install @actions/github
       - name: Checkout
         uses: actions/checkout@v2
       - name: Hello world action step
