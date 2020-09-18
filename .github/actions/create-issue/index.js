@@ -10,12 +10,12 @@ const body = core.getInput('body');
 const assignees = core.getInput('assignees');
 const labels = core.getInput('labels');
 
-const response = await octokit.issues.create({
+const response = octokit.issues.create({
     ...github.context.repo,
     title,
     body,
     assignees: assignees ? assignees.split(',') : undefined,
-    labels: assignees ? assignees.split(',') : undefined
+    labels: labels ? labels.split(',') : undefined
 })
 
 core.setOutput('issue', JSON.stringify(response.data));
