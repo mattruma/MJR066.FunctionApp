@@ -1,11 +1,8 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
-console.log(github.context.payload.issue.labels);
+console.log(github.context.payload);
 
-core.setOutput(
-    "exists",
-    github.context.payload.issue.labels
-        .some((label) => label.name === core.getInput('label'))
-        .toString()
-);
+// const changelog = fs.readFileSync('', {
+//     encoding: "UTF8"
+// });

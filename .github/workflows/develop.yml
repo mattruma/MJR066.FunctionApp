@@ -66,13 +66,13 @@ jobs:
   #        app-name: mjr-066-001-func
   #        package: './output'
   
-  run-integration-tests:
+  # run-integration-tests:
   
     # needs: deploy-code
-    runs-on: ubuntu-latest
+    # runs-on: ubuntu-latest
 
-    steps:  
-    - uses: actions/checkout@master
+    # steps:  
+    # - uses: actions/checkout@master
     # - uses: Azure/login@v1
     #   with:
     #     creds: ${{ secrets.DEVELOP_AZURECREDENTIALS }} 
@@ -92,9 +92,23 @@ jobs:
     # - run: pwsh -command "./RunIntegrationTests_CreateParametersFile.ps1 -FunctionUrl 'mjr-066-001-func.azurewebsites.net' -FunctionApp1Code ${{ steps.GetSecrets.outputs.FunctionApp1Code }}"
     # - run: npm install newman
     # - run: newman run postman_collection.json -e ./postman_environment.json --reporters cli,junit --reporter-junit-export ./JunitReport.xml
-    - uses: JasonEtco/create-an-issue@v2
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        filename: .github/workflows/create-issue-template.md
-        assignees: mattruma
+    # - uses: JasonEtco/create-an-issue@v2
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     filename: .github/workflows/create-issue-template.md
+    #     assignees: mattruma
+            
+  create_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: npm install
+        working-directory: ./.github/actions/create-issue
+      - uses: ./.github/actions/create-issue
+        with:
+          subject: Run stage approval pending FunctionApp - Staging
+          label: approve
