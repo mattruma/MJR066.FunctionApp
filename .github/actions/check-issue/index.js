@@ -3,6 +3,7 @@ const github = require('@actions/github');
 
 const payload = JSON.stringify(github.context.payload, undefined, 2)
 console.log(`The event payload: ${payload}`);
+console.log(`The event payload: ${payload.issue.labels}`);
 
 // const token = core.getInput("token");
 
