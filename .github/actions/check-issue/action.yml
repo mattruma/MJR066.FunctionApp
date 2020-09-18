@@ -6,7 +6,7 @@ inputs:
     required: true
 outputs:
   exists:
-    description: 'True if the label exists, othwerwise false.'
+    description: 'True if the label exists, otherwise false.'
 runs:
   using: 'node12'
   main: 'index.js'

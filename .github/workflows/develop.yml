@@ -68,39 +68,38 @@ jobs:
   
   # run-integration-tests:
   
-    # needs: deploy-code
-    # runs-on: ubuntu-latest
+  #   needs: deploy-code
+  #   runs-on: ubuntu-latest
 
-    # steps:  
-    # - uses: actions/checkout@master
-    # - uses: Azure/login@v1
-    #   with:
-    #     creds: ${{ secrets.DEVELOP_AZURECREDENTIALS }} 
-    #     enable-AzPSSession: true 
-    # - uses: Azure/get-keyvault-secrets@v1.0
-    #   with:
-    #     keyvault: "mjr-066-001-kv"
-    #     secrets: 'CosmosConnectionString1,FunctionApp1Code' 
-    #   id: GetSecrets
-    # - uses: azure/powershell@v1
-    #   with:
-    #     inlineScript: |
-    #       $ResourceGroupName = "mjr-066-001-rg"
+  #   steps:  
+  #   - uses: actions/checkout@master
+  #   - uses: Azure/login@v1
+  #     with:
+  #       creds: ${{ secrets.DEVELOP_AZURECREDENTIALS }} 
+  #       enable-AzPSSession: true 
+  #   - uses: Azure/get-keyvault-secrets@v1.0
+  #     with:
+  #       keyvault: "mjr-066-001-kv"
+  #       secrets: 'CosmosConnectionString1,FunctionApp1Code' 
+  #     id: GetSecrets
+  #   - uses: azure/powershell@v1
+  #     with:
+  #       inlineScript: |
+  #         $ResourceGroupName = "mjr-066-001-rg"
           
-    #       Update-AzFunctionAppSetting -Name mjr-066-001-func -ResourceGroupName $ResourceGroupName -AppSetting @{"CosmosConnectionString" = "${{ steps.GetSecrets.outputs.CosmosConnectionString1 }}"}
-    #     azPSVersion: '3.1.0'              
-    # - run: pwsh -command "./RunIntegrationTests_CreateParametersFile.ps1 -FunctionUrl 'mjr-066-001-func.azurewebsites.net' -FunctionApp1Code ${{ steps.GetSecrets.outputs.FunctionApp1Code }}"
-    # - run: npm install newman
-    # - run: newman run postman_collection.json -e ./postman_environment.json --reporters cli,junit --reporter-junit-export ./JunitReport.xml
-    # - uses: JasonEtco/create-an-issue@v2
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   with:
-    #     filename: .github/workflows/create-issue-template.md
-    #     assignees: mattruma
+  #         Update-AzFunctionAppSetting -Name mjr-066-001-func -ResourceGroupName $ResourceGroupName -AppSetting @{"CosmosConnectionString" = "${{ steps.GetSecrets.outputs.CosmosConnectionString1 }}"}
+  #       azPSVersion: '3.1.0'   
+  #   - name: 'Build postman environment file'           
+  #     run: pwsh -command "./RunIntegrationTests_CreateParametersFile.ps1 -FunctionUrl 'mjr-066-001-func.azurewebsites.net' -FunctionApp1Code ${{ steps.GetSecrets.outputs.FunctionApp1Code }}"
+  #   - run: npm install newman
+  #   - name: 'Run postman tests' 
+  #     run: newman run postman_collection.json -e ./postman_environment.json --reporters cli,junit --reporter-junit-export ./JunitReport.xml
             
-  create_issue:
+  create-approval-issue:
+
+    # needs: run-integration-tests
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
