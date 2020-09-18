@@ -110,5 +110,5 @@ jobs:
         working-directory: ./.github/actions/create-issue
       - uses: ./.github/actions/create-issue
         with:
-          subject: Run stage approval pending FunctionApp - Staging
+          title: Run stage approval pending FunctionApp - Staging
           label: approve
