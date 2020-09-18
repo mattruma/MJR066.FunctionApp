@@ -113,3 +113,4 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }} 
           title: Run stage approval pending FunctionApp - Staging
           labels: approve
+          assignees: mattruma

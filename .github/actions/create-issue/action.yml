@@ -8,10 +8,10 @@ inputs:
     description: 'The title of the issue.'
     required: true
   labels:
-    description: 'Labels to associate with this issue.'
+    description: 'Comma separated list of labels to associate with this issue.'
     required: false
-  assignee:
-    description: 'Login for the user that this issue should be assigned to.'
+  assignees:
+    description: 'Comma separated list of logins for the users that this issue should be assigned to.'
     required: false
   body:
     description: 'The contents of the issue.'
