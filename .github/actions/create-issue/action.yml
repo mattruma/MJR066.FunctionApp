@@ -16,6 +16,9 @@ inputs:
   body:
     description: 'The contents of the issue.'
     required: false
+outputs:
+  issues:
+    description: 'The created issue.'
 runs:
   using: 'node12'
   main: 'index.js'
