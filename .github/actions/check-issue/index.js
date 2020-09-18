@@ -1,23 +1,26 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
-const token = core.getInput("token");
+const payload = JSON.stringify(github.context.payload, undefined, 2)
+console.log(`The event payload: ${payload}`);
 
-const octokit = new github.GitHub(token);
-const context = github.context;
+// const token = core.getInput("token");
 
-if (!context.payload.issue) {
-    throw new Error("This should not happen");
-}
+// const octokit = new github.GitHub(token);
+// const context = github.context;
 
-const issue = await octokit.issues.get({
-    ...context.repo,
-    issue_number: context.payload.issue.number,
-});
+// if (!context.payload.issue) {
+//     throw new Error("This should not happen");
+// }
 
-core.setOutput(
-    "exists",
-    issue.data.labels
-        .some((label) => label.name === core.getInput("label"))
-        .toString()
-);
+// const issue = await octokit.issues.get({
+//     ...context.repo,
+//     issue_number: context.payload.issue.number,
+// });
+
+// core.setOutput(
+//     "exists",
+//     issue.data.labels
+//         .some((label) => label.name === core.getInput("label"))
+//         .toString()
+// );
