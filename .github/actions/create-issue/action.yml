@@ -1,21 +1,12 @@
-name: 'Create GitHub Issue'
-description: 'Creates a GitHub issue'
+name: 'Create a GitHub Issue'
+description: 'Creates a GitHub issue.'
 inputs:
-  action-id:
-    description: 'GitHub Action ID'
-    required: true
-    default: ''
   title:
-    description: 'Title of the issue'
+    description: 'The title of the issue.'
     required: true
-    default: 'Release Created'
-  package-version:
-    description: 'Version of the package being released'
-    required: true
-    default: 'Something like 1.0.0'
-outputs:
-  issue-id:
-    description: 'ID of the created issue on GitHub'
+  label:
+    description: 'Labels to associate with this issue.'
+    required: false
 runs:
   using: 'node12'
   main: 'dist/index.js'
