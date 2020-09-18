@@ -1,8 +1,6 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
 
-const payload = JSON.stringify(github.context.payload, undefined, 2)
-console.log(`The event payload: ${payload}`);
 console.log(github.context.payload.issue.labels);
 
 // const token = core.getInput("token");
@@ -19,9 +17,9 @@ console.log(github.context.payload.issue.labels);
 //     issue_number: context.payload.issue.number,
 // });
 
-// core.setOutput(
-//     "exists",
-//     context.payload.issue.data.labels
-//         .some((label) => label.name === core.getInput('label'))
-//         .toString()
-// );
+core.setOutput(
+    "exists",
+    github.context.payload.issue.labels
+        .some((label) => label.name === core.getInput('label'))
+        .toString()
+);
