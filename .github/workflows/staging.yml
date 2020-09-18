@@ -31,8 +31,7 @@ jobs:
       - run: npm install
         working-directory: ./.github/actions/check-issue
       - uses: ./.github/actions/check-issue
-        id: check-issue
+        id: CheckIssue
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
           label: approved
-      - run: echo ${{ steps.check-issue.outputs.exists }}
+      - run: echo ${{ steps.CheckIssue.outputs.exists }}
