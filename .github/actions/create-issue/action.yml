@@ -1,6 +1,9 @@
 name: 'Create a GitHub Issue'
 description: 'Creates a GitHub issue.'
 inputs:
+  token:
+    description: 'The GitHub access token.'
+    required: true
   title:
     description: 'The title of the issue.'
     required: true
