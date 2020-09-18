@@ -111,4 +111,4 @@ jobs:
       - uses: ./.github/actions/create-issue
         with:
           title: Run stage approval pending FunctionApp - Staging
-          label: approve
+          labels: approve
