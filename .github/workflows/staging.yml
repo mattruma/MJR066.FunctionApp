@@ -6,9 +6,8 @@ on:
 
 jobs:
         
-  hello_world_job:
+  hello_world:
     runs-on: ubuntu-latest
-    name: A job to say hello
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -21,3 +20,13 @@ jobs:
         with:
           who-to-greet: 'Mona the Octocat'
       - run: echo "The time was ${{ steps.hello.outputs.time }}"
+        
+  check_issue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: "12.x"
+      - run: npm install
+        working-directory: ./.github/actions/check-issue
