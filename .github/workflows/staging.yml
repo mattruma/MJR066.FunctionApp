@@ -6,20 +6,20 @@ on:
 
 jobs:
         
-  hello_world:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - run: npm install
-        working-directory: ./.github/actions/hello-world
-      - uses: ./.github/actions/hello-world
-        id: hello
-        with:
-          who-to-greet: 'Mona the Octocat'
-      - run: echo "The time was ${{ steps.hello.outputs.time }}"
+  # hello_world:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/setup-node@v1
+  #       with:
+  #         node-version: '12.x'
+  #     - run: npm install
+  #       working-directory: ./.github/actions/hello-world
+  #     - uses: ./.github/actions/hello-world
+  #       id: hello
+  #       with:
+  #         who-to-greet: 'Mona the Octocat'
+  #     - run: echo "The time was ${{ steps.hello.outputs.time }}"
         
   check_issue:
     runs-on: ubuntu-latest

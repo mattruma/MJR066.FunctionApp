@@ -18,9 +18,9 @@ console.log(`The event payload: ${payload}`);
 //     issue_number: context.payload.issue.number,
 // });
 
-core.setOutput(
-    "exists",
-    issue.data.labels
-        .some((label) => label.name === core.getInput('label'))
-        .toString()
-);
+// core.setOutput(
+//     "exists",
+//     context.payload.issue.data.labels
+//         .some((label) => label.name === core.getInput('label'))
+//         .toString()
+// );
