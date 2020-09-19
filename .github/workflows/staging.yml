@@ -27,9 +27,6 @@ jobs:
         
   deploy-infrastructure:
     
-    outputs:
-      exists: ${{ needs.check-issue-label.outputs.exists }}
-    
     needs: check-issue-label
     runs-on: ubuntu-latest
     if: needs.check-issue-label.outputs.exists == 'true'
@@ -65,7 +62,7 @@ jobs:
 
     needs: deploy-infrastructure
     runs-on: ubuntu-latest
-    if: needs.check-issue-label.outputs.exists == 'true'
+    # if: needs.check-issue-label.outputs.exists == 'true'
 
     steps:
      - uses: actions/checkout@v2
