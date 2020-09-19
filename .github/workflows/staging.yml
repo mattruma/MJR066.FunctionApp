@@ -24,13 +24,46 @@ jobs:
         id: CheckIssue
         with:
           label: approved
-         
+        
+  deploy-infrastructure:
+    
+    runs-on: ubuntu-latest
+    needs: check-issue-label
+    if: needs.check-issue-label.outputs.exists == 'true'
+
+    steps: 
+    - uses: actions/checkout@master
+    - uses: Azure/login@v1
+      with:
+        creds: ${{ secrets.STAGING_AZURECREDENTIALS }} 
+        enable-AzPSSession: true 
+    - uses: azure/powershell@v1
+      with:
+        inlineScript: |
+          $ResourceGroupLocation = "eastus"
+          
+          $ResourceGroupName = "mjr-066-002-rg"
+          $ResourceGroup = (Get-AzResourceGroup -Name $ResourceGroupName -ErrorAction SilentlyContinue)
+          
+          if ($null -eq $ResourceGroup) {
+              $ResourceGroup = (New-AzResourceGroup `
+                  -Name $ResourceGroupName `
+                  -Location $ResourceGroupLocation)
+          }
+        azPSVersion: '3.1.0'        
+    - uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: ${{ secrets.DEVELOP_SUBSCRIPTIONID }}
+        resourceGroupName: mjr-066-002-rg
+        template: ./Deploy.json
+        parameters: resourcePrefix=mjr-066-002
+
   add-label-to-issue:
 
     # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjobs_idoutputs
   
-    needs: check-issue-label
     runs-on: ubuntu-latest
+    needs: deploy-infrastructure
     if: needs.check-issue-label.outputs.exists == 'true'
     steps:
       - uses: actions/checkout@v2
