@@ -7,7 +7,9 @@ on:
 jobs:
         
   check-issue-label:
+
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
@@ -19,10 +21,28 @@ jobs:
         id: CheckIssue
         with:
           label: approved
+         
+  add-label-to-issue:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - run: npm install
+        working-directory: ./.github/actions/add-label-to-issue
+      - uses: ./.github/actions/add-label-to-issue
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} 
+          issue_number: ${{ github.context.issue.number }}
+          label: released
         
   # deploy-infrastructure:
     
   #   runs-on: ubuntu-latest
+  #   if: steps.CheckIssue.outputs.exists == 'true'
 
   #   steps: 
   #   - uses: actions/checkout@master
@@ -55,6 +75,7 @@ jobs:
 
   #   needs: deploy-infrastructure
   #   runs-on: ubuntu-latest
+  #   if: steps.CheckIssue.outputs.exists == 'true'
 
   #   steps:
   #    - uses: actions/checkout@v2
@@ -82,6 +103,7 @@ jobs:
   
   #   needs: deploy-code
   #   runs-on: ubuntu-latest
+  #   if: steps.CheckIssue.outputs.exists == 'true'
 
   #   steps:  
   #   - uses: actions/checkout@master

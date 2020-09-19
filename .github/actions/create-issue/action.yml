@@ -17,7 +17,7 @@ inputs:
     description: 'The contents of the issue.'
     required: false
 outputs:
-  issues:
+  issue:
     description: 'The created issue.'
 runs:
   using: 'node12'
