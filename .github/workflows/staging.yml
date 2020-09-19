@@ -27,6 +27,9 @@ jobs:
         
   deploy-infrastructure:
     
+    outputs:
+      exists: ${{ needs.check-issue-label.outputs.exists }}
+    
     needs: check-issue-label
     runs-on: ubuntu-latest
     if: needs.check-issue-label.outputs.exists == 'true'
