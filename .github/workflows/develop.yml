@@ -97,7 +97,7 @@ jobs:
             
   create-approval-issue:
 
-    # needs: run-integration-tests
+    needs: run-integration-tests
     runs-on: ubuntu-latest
 
     steps:

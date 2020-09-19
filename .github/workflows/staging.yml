@@ -109,19 +109,16 @@ jobs:
           
           Update-AzFunctionAppSetting -Name mjr-066-002-func -ResourceGroupName $ResourceGroupName -AppSetting @{"CosmosConnectionString" = "${{ steps.GetSecrets.outputs.CosmosConnectionString1 }}"}
         azPSVersion: '3.1.0'   
-  #   - name: 'Build postman environment file'           
-  #     run: pwsh -command "./RunIntegrationTests_CreateParametersFile.ps1 -FunctionUrl 'mjr-066-002-func.azurewebsites.net' -FunctionApp1Code ${{ steps.GetSecrets.outputs.FunctionApp1Code }}"
-  #   - run: npm install newman
-  #   - name: 'Run postman tests' 
-  #     run: newman run postman_collection.json -e ./postman_environment.json --reporters cli,junit --reporter-junit-export ./JunitReport.xml
+    - name: 'Build postman environment file'           
+      run: pwsh -command "./RunIntegrationTests_CreateParametersFile.ps1 -FunctionUrl 'mjr-066-002-func.azurewebsites.net' -FunctionApp1Code ${{ steps.GetSecrets.outputs.FunctionApp1Code }}"
+    - run: npm install newman
+    - name: 'Run postman tests' 
+      run: newman run postman_collection.json -e ./postman_environment.json --reporters cli,junit --reporter-junit-export ./JunitReport.xml
 
   add-label-to-issue:
-
-    # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjobs_idoutputs
  
     runs-on: ubuntu-latest
-    needs: check-issue-label 
-    # needs: run-integration-tests 
+    needs: run-integration-tests 
 
     steps:
       - uses: actions/checkout@v2
