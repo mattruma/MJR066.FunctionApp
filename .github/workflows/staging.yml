@@ -9,6 +9,9 @@ jobs:
   check-issue-label:
 
     runs-on: ubuntu-latest
+    
+    outputs:
+      output1: ${{ steps.CheckIssue.outputs.exists }}
 
     steps:
       - uses: actions/checkout@v2
@@ -21,15 +24,12 @@ jobs:
         id: CheckIssue
         with:
           label: approved
-    
-    outputs:
-      output1: ${{ steps.CheckIssue.outputs.exists }}
          
   add-label-to-issue:
 
     # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjobs_idoutputs
 
-    if: jobs.check-issue-label.outputs.exists == 'true'
+    if: check-issue-label.outputs.exists == 'true'
     runs-on: ubuntu-latest
 
     steps:
