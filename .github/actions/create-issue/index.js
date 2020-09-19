@@ -3,6 +3,8 @@ const github = require('@actions/github');
 
 const octokit = new github.GitHub(core.getInput('token'));
 
+// https://octokit.github.io/rest.js/v18
+
 const title = core.getInput('title');
 const body = core.getInput('body');
 const assignees = core.getInput('assignees');
