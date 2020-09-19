@@ -34,7 +34,6 @@ jobs:
     # if: needs.check-issue-label.outputs.exists
     steps:
     - run: echo ${{needs.check-issue-label.outputs.exists}}
-    - run: echo ${{needs.check-issue-label.outputs.exists}}
       # - uses: actions/checkout@v2
       # - uses: actions/setup-node@v1
       #   with:
