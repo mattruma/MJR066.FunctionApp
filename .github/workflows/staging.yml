@@ -31,7 +31,7 @@ jobs:
   
     needs: check-issue-label
     runs-on: ubuntu-latest
-    # if: needs.check-issue-label.outputs.exists
+    if: needs.check-issue-label.outputs.exists = 'true'
     steps:
     - run: echo ${{needs.check-issue-label.outputs.exists}}
       # - uses: actions/checkout@v2
