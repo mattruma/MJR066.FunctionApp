@@ -42,5 +42,5 @@ jobs:
       - uses: ./.github/actions/add-label-to-issue
         with:
           token: ${{ secrets.GITHUB_TOKEN }} 
-          issue_number: ${{ github.context.issue.number }}
+          issue_number: ${{ github.event.issue.number }}
           label: released
