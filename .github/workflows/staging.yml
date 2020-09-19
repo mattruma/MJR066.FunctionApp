@@ -90,7 +90,7 @@ jobs:
   
     needs: deploy-code
     runs-on: ubuntu-latest
-    if: needs.check-issue-label.outputs.exists == 'true'
+    # if: needs.check-issue-label.outputs.exists == 'true'
 
     steps:  
     - uses: actions/checkout@master
@@ -121,8 +121,8 @@ jobs:
     # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjobs_idoutputs
  
     runs-on: ubuntu-latest
-    needs: deploy-infrastructure 
-    if: needs.check-issue-label.outputs.exists == 'true'
+    needs: run-integration-tests 
+    # if: needs.check-issue-label.outputs.exists == 'true'
 
     steps:
       - uses: actions/checkout@v2
