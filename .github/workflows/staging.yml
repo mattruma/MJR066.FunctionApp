@@ -24,6 +24,7 @@ jobs:
          
   add-label-to-issue:
 
+    if: steps.CheckIssue.outputs.exists == 'true'
     runs-on: ubuntu-latest
 
     steps:
