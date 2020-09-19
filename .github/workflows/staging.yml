@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     
     outputs:
-      output1: ${{ steps.CheckIssue.outputs.exists }}
+      exists: ${{ steps.CheckIssue.outputs.exists }}
 
     steps:
       - uses: actions/checkout@v2
@@ -28,19 +28,20 @@ jobs:
   add-label-to-issue:
 
     # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjobs_idoutputs
-
-    if: check-issue-label.outputs.exists == 'true'
+  
+    needs: check-issue-label
     runs-on: ubuntu-latest
-
+    # if: needs.check-issue-label.outputs.exists
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: '12.x'
-      - run: npm install
-        working-directory: ./.github/actions/add-label-to-issue
-      - uses: ./.github/actions/add-label-to-issue
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }} 
-          issue_number: ${{ github.context.issue.number }}
-          label: released
+    - run: echo ${{needs.check-issue-label.outputs.exists}}
+      # - uses: actions/checkout@v2
+      # - uses: actions/setup-node@v1
+      #   with:
+      #     node-version: '12.x'
+      # - run: npm install
+      #   working-directory: ./.github/actions/add-label-to-issue
+      # - uses: ./.github/actions/add-label-to-issue
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }} 
+      #     issue_number: ${{ github.context.issue.number }}
+      #     label: released
