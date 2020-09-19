@@ -21,10 +21,13 @@ jobs:
         id: CheckIssue
         with:
           label: approved
+    
+    outputs:
+      output1: ${{ steps.CheckIssue.outputs.exists }}
          
   add-label-to-issue:
 
-    if: job.check-issue-label.steps.CheckIssue.outputs.exists == 'true'
+    if: job.check-issue-label.outputs.exists == 'true'
     runs-on: ubuntu-latest
 
     steps:
